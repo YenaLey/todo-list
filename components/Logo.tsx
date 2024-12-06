@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -30,16 +29,7 @@ const Logo = () => {
     };
   }, []);
 
-  return (
-    <Image
-      src={logoSrc}
-      alt="logo"
-      width={100}
-      height={40}
-      priority
-      onClick={handleLogo}
-    />
-  );
+  return <img src={logoSrc} alt="logo" onClick={handleLogo} />;
 };
 
 export default Logo;

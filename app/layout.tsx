@@ -28,7 +28,7 @@ export default function RootLayout({
             <Logo />
           </div>
         </nav>
-        {children}
+        <main>{children}</main>
       </body>
     </html>
   );

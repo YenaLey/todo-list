@@ -1,0 +1,142 @@
+.container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 0 4vw;
+  padding-bottom: 4vh;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+.container form {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3vh 0;
+
+  & input {
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    border: 2px solid #0f172a;
+    background-color: #f1f5f9;
+    font-size: 0.8rem;
+    padding-left: 15px;
+  }
+
+  & button {
+    width: 168px;
+    height: 100%;
+    margin-left: 1.5vw;
+    border-radius: 30px;
+    border: 2px solid #0f172a;
+    background-color: #e2e8f0;
+    cursor: pointer;
+  }
+}
+
+.container section {
+  width: 100%;
+  display: flex;
+  gap: 1.5vw;
+
+  & div {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  & h2 {
+    font-family: "HS-Regular";
+    font-size: 0.9rem;
+    padding: 1vh 2vw;
+    border-radius: 30px;
+    margin: 2vh 0;
+  }
+
+  & ul {
+    width: 100%;
+  }
+
+  & li {
+    margin-bottom: 2vh;
+    list-style: none;
+    height: 40px;
+    border-radius: 30px;
+    border: 2px solid #0f172a;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+  }
+
+  & input[type="checkbox"] {
+    appearance: none;
+    border: 2px solid #0f172a;
+    height: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    margin-right: 3%;
+    background-color: #fefce8;
+    cursor: pointer;
+  }
+
+  & input[type="checkbox"]:hover {
+    background: url("/images/white_check.png") center/70% no-repeat #7c3aed;
+    border: none;
+  }
+
+  & input[type="checkbox"]:checked {
+    background: url("/images/white_check.png") center/70% no-repeat #7c3aed;
+    border: none;
+  }
+
+  & p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .container section {
+    flex-direction: column;
+
+    & div {
+      width: 100%;
+    }
+  }
+}
+
+.todoBox {
+  & h2 {
+    background-color: #bef264;
+    color: #15803d;
+  }
+
+  & li {
+    background-color: #ffffff;
+  }
+}
+
+.doneBox {
+  & h2 {
+    background-color: #15803d;
+    color: #fcd34d;
+  }
+
+  & li {
+    background-color: #ede9fe;
+  }
+
+  & p {
+    text-decoration: line-through;
+  }
+}
