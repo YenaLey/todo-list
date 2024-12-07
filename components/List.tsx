@@ -4,12 +4,11 @@ import { editItem } from "@/lib/api";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
-export default function List({ item, setIsEdit, onRemove }: ListType) {
+export default function List({ item, setIsEdit }: ListType) {
   const router = useRouter();
 
   const handleCheck = async (e: React.MouseEvent | React.ChangeEvent) => {
     e.stopPropagation();
-    onRemove(item.id);
 
     try {
       const { status } = await editItem({
@@ -35,6 +34,11 @@ export default function List({ item, setIsEdit, onRemove }: ListType) {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 10 }}
       transition={{ duration: 0.5 }}
+      whileHover={{
+        scale: 1.01,
+        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
+        transition: { duration: 0.1, ease: "easeInOut" },
+      }}
     >
       <div
         onClick={(e) => {

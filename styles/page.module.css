@@ -28,6 +28,7 @@
     background-color: #f1f5f9;
     padding-left: 15px;
     box-shadow: 1.5px 1.5px 1px black;
+    outline: none;
   }
 
   & button {
@@ -42,6 +43,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 0.1s ease-in-out;
 
     & img {
       width: 12px;
@@ -51,6 +53,11 @@
       position: relative;
       top: 1px;
     }
+  }
+
+  & button:hover {
+    transform: scale(1.02);
+    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.9);
   }
 }
 

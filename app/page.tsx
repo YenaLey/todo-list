@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import styles from "@/styles/page.module.css";
 import List from "@/components/List";
 import { addItem, getList } from "@/lib/api";
@@ -11,11 +12,17 @@ export default function Main() {
   const [list, setList] = useState<BaseResponse[]>([]);
   const [text, setText] = useState("");
   const [isEmpty, setIsEmpty] = useState(false);
+  const pageSize = 20;
 
   const fetchAddItem = async () => {
     try {
       if (!text.trim()) {
         alert("할 일을 입력해주세요.");
+        return;
+      }
+
+      if (list.length >= pageSize) {
+        alert(`최대 ${pageSize}개의 항목만 작성할 수 있습니다.`);
         return;
       }
 
@@ -40,18 +47,10 @@ export default function Main() {
     fetchAddItem();
   };
 
-  const removeFromList = (id: number) => {
-    setList((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, isCompleted: !item.isCompleted } : item
-      )
-    );
-  };
-
   useEffect(() => {
     const fetchList = async () => {
       try {
-        const { status, data } = await getList({ page: 1, pageSize: 20 });
+        const { status, data } = await getList({ page: 1, pageSize: pageSize });
 
         if (status === 200) {
           setList([...data]);
@@ -116,12 +115,7 @@ export default function Main() {
           <ul>
             <AnimatePresence>
               {todoList.map((item) => (
-                <List
-                  key={item.id}
-                  item={item}
-                  setIsEdit={setIsEdit}
-                  onRemove={removeFromList}
-                />
+                <List key={item.id} item={item} setIsEdit={setIsEdit} />
               ))}
             </AnimatePresence>
           </ul>
@@ -139,12 +133,7 @@ export default function Main() {
           <ul>
             <AnimatePresence>
               {doneList.map((item) => (
-                <List
-                  key={item.id}
-                  item={item}
-                  setIsEdit={setIsEdit}
-                  onRemove={removeFromList}
-                />
+                <List key={item.id} item={item} setIsEdit={setIsEdit} />
               ))}
             </AnimatePresence>
           </ul>

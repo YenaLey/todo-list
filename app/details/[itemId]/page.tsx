@@ -26,6 +26,7 @@ export default function Details() {
   });
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -34,6 +35,14 @@ export default function Details() {
       inputRef.current.style.width = `${textLength * averageCharWidth}px`;
     }
   }, [itemInfo.name]);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      const textarea = textareaRef.current;
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  }, [itemInfo.memo]);
 
   const uploadImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -177,6 +186,7 @@ export default function Details() {
           <h3>Memo</h3>
           <div>
             <textarea
+              ref={textareaRef}
               placeholder="메모를 입력해주세요"
               value={itemInfo.memo}
               onChange={(e) => {
