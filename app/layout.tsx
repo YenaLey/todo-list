@@ -23,11 +23,14 @@ export default function RootLayout({
         />
       </head>
       <body className={styles.container}>
+        {/* 네비게이션 바 */}
         <nav>
           <div>
+            {/* 로고 컴포넌트 */}
             <Logo />
           </div>
         </nav>
+        {/* 페이지의 메인 콘텐츠 */}
         <main>{children}</main>
       </body>
     </html>

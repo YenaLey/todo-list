@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Do It!
 
-## Getting Started
+**Do It!**은 사용자가 작업을 효율적으로 관리할 수 있도록 도와주는 직관적이고 사용하기 쉬운 투두 리스트 애플리케이션입니다.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 주요 기능
+
+- **항목 추가**: 새로운 할 일을 간편하게 추가할 수 있습니다.
+- **항목 완료 상태 구분**: 할 일(TO DO)과 완료된 일(DONE)을 명확히 구분하여 표시합니다.
+- **항목 수정**: 기존 항목의 제목, 메모, 이미지를 자유롭게 수정할 수 있습니다.
+- **이미지 업로드**: 항목별로 이미지를 추가할 수 있으며, 최대 5MB 크기의 이미지만 업로드 가능합니다.
+- **메모 기능**: 항목마다 메모를 추가하고 수정할 수 있어 더욱 세부적인 관리가 가능합니다.
+- **반응형 디자인**: 데스크톱 및 모바일 기기에서도 완벽히 작동합니다.
+- **동적 애니메이션**: Framer Motion을 활용한 부드럽고 매력적인 화면 전환.
+
+---
+
+## 사용된 기술 스택
+
+- **Next.js**: React 기반의 강력한 웹 애플리케이션 프레임워크
+- **Framer Motion**: 애니메이션 및 화면 전환을 위한 라이브러리
+- **TypeScript**: 안정성과 가독성을 위한 정적 타입 시스템
+- **CSS Modules**: 컴포넌트 기반 스타일링
+- **RESTful API**: 작업 데이터를 관리하기 위한 API 통신
+
+---
+
+## 프로젝트 구조
+
+```plaintext
+app/            # 애플리케이션 페이지 및 레이아웃 구성
+components/     # 재사용 가능한 UI 컴포넌트
+lib/            # API 호출 및 데이터 처리 로직
+styles/         # CSS 모듈 및 전역 스타일 파일
+types/          # 타입 선언 파일
+public/         # 정적 파일 (이미지, 아이콘 등)
+
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
