@@ -35,15 +35,21 @@ export default function List({ item, setIsEdit, onRemove }: ListType) {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 10 }}
       transition={{ duration: 0.5 }}
-      onTap={() => router.push(`details/${item.id}`)}
     >
-      <input
-        type="checkbox"
-        checked={item.isCompleted}
-        onChange={handleCheck}
-        onClick={(e) => e.stopPropagation()}
-      />
-      <p>{item.name}</p>
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          router.push(`details/${item.id}`);
+        }}
+      >
+        <input
+          type="checkbox"
+          checked={item.isCompleted}
+          onChange={handleCheck}
+          onClick={(e) => e.stopPropagation()}
+        />
+        <p>{item.name}</p>
+      </div>
     </motion.li>
   );
 }
