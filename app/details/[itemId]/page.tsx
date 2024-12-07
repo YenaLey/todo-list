@@ -49,10 +49,6 @@ export default function Details() {
       alert("파일 이름은 영어로만 이루어져야 합니다.");
       return;
     }
-    if (file.size > 5 * 1024 * 1024) {
-      alert("파일 크기는 5MB 이하여야 합니다.");
-      return;
-    }
 
     try {
       const { status, data } = await getImageUrl({ imageFile: file });
@@ -60,6 +56,8 @@ export default function Details() {
       if (status === 201) {
         setItemInfo((prev) => ({ ...prev, imageUrl: data.url }));
         console.log(data);
+      } else if (status === 413) {
+        alert("5MB보다 작은 이미지를 업로드해주세요.");
       } else {
         alert("이미지를 업로드할 수 없습니다.");
       }
