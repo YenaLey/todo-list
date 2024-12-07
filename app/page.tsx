@@ -10,6 +10,7 @@ export default function Main() {
   const [isEdit, setIsEdit] = useState(true);
   const [list, setList] = useState<BaseResponse[]>([]);
   const [text, setText] = useState("");
+  const [isEmpty, setIsEmpty] = useState(false);
 
   const fetchAddItem = async () => {
     try {
@@ -69,6 +70,8 @@ export default function Main() {
     if (isEdit) {
       fetchList();
     }
+
+    setIsEmpty(list.length ? false : true);
   }, [isEdit]);
 
   const todoList = list.filter((item) => !item.isCompleted);
@@ -85,11 +88,31 @@ export default function Main() {
             setText(e.target.value);
           }}
         ></input>
-        <button type="submit">+ 추가하기</button>
+        <button
+          type="submit"
+          style={{
+            backgroundColor: isEmpty ? "#7c3aed" : "#e2e8f0",
+            color: isEmpty ? "white" : "black",
+          }}
+        >
+          <img
+            src={!isEmpty ? "/images/black_plus.png" : "/images/white_plus.png"}
+            alt="버튼"
+          />
+          <span>&nbsp;추가하기</span>
+        </button>
       </form>
       <section>
         <div className={styles.todoBox}>
           <h2>TO DO</h2>
+          {!todoList.length && (
+            <div className={styles.noneBox}>
+              <img src="/images/todo_background.png" alt="배경" />
+              <h3>
+                할 일이 없어요.<br></br>TODO를 새롭게 추가해주세요!
+              </h3>
+            </div>
+          )}
           <ul>
             <AnimatePresence>
               {todoList.map((item) => (
@@ -105,6 +128,14 @@ export default function Main() {
         </div>
         <div className={styles.doneBox}>
           <h2>DONE</h2>
+          {!doneList.length && (
+            <div className={styles.noneBox}>
+              <img src="/images/done_background.png" alt="배경" />
+              <h3>
+                아직 다 한 일이 없어요.<br></br>해야 할 일을 체크해보세요!
+              </h3>
+            </div>
+          )}
           <ul>
             <AnimatePresence>
               {doneList.map((item) => (

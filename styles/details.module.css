@@ -79,7 +79,7 @@
   }
 
   & label {
-    background: url("/images/pencil.png") center/25px no-repeat
+    background: url("/images/pencil.png") center/20px no-repeat
       rgba(15, 23, 42, 0.5);
     border: 2px solid #0f172a;
     width: 55px;
@@ -96,7 +96,7 @@
   border: 2px dashed #cbd5e1;
 
   & label {
-    background: url("/images/blue_plus.png") center/25px no-repeat #e2e8f0;
+    background: url("/images/blue_plus.png") center/20px no-repeat #e2e8f0;
     border: none;
   }
 }
@@ -121,7 +121,6 @@
 
   & h3 {
     color: #92400e;
-    font-size: 0.9rem;
     font-weight: 900;
     text-align: center;
     padding: 10px;
@@ -142,9 +141,9 @@
     background-color: transparent;
     resize: none;
     text-align: center;
-    font-size: 0.9rem;
     white-space: pre-wrap;
     max-height: calc(300px - 40px);
+    padding: 0 15px;
   }
 }
 
@@ -160,10 +159,14 @@
     border-radius: 30px;
     font-weight: 700;
     cursor: pointer;
-  }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1.5px 1.5px 1px black;
 
-  & button:nth-child(1) {
-    background-color: #e2e8f0;
+    & img {
+      width: 12px;
+    }
   }
 
   & button:nth-child(2) {

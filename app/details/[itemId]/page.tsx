@@ -10,6 +10,13 @@ export default function Details() {
   const params = useParams();
   const router = useRouter();
   const itemId = parseInt(params.itemId as string, 10);
+  const [initialItemInfo, setInitialItemInfo] = useState({
+    itemId: itemId,
+    name: "",
+    memo: "",
+    imageUrl: "",
+    isCompleted: false,
+  });
   const [itemInfo, setItemInfo] = useState({
     itemId: itemId,
     name: "",
@@ -97,13 +104,15 @@ export default function Details() {
 
         if (status === 200) {
           const { id, name, memo, imageUrl, isCompleted } = data;
-          setItemInfo({
+          const fetchedData = {
             itemId: id,
             name,
             memo: memo || "",
             imageUrl,
             isCompleted,
-          });
+          };
+          setInitialItemInfo(fetchedData);
+          setItemInfo(fetchedData);
         } else if (status === 404) {
           alert("해당 아이템를 찾을 수 없습니다.");
         } else {
@@ -121,6 +130,9 @@ export default function Details() {
       alert("해당 아이템를 찾을 수 없습니다.");
     }
   }, [itemId]);
+
+  const hasChanges =
+    JSON.stringify(initialItemInfo) !== JSON.stringify(itemInfo);
 
   return (
     <div className={styles.container}>
@@ -173,8 +185,18 @@ export default function Details() {
         </div>
       </section>
       <footer>
-        <button onClick={fetchEditItem}>수정 완료</button>
-        <button onClick={fetchDeleteItem}>삭제하기</button>
+        <button
+          onClick={fetchEditItem}
+          disabled={!hasChanges}
+          style={{ backgroundColor: hasChanges ? "#BEF264" : "#e2e8f0" }}
+        >
+          <img src="/images/black_check.png" alt="버튼" />
+          &nbsp;수정 완료
+        </button>
+        <button onClick={fetchDeleteItem}>
+          <img src="/images/white_x.png" alt="버튼" />
+          &nbsp;삭제하기
+        </button>
       </footer>
     </div>
   );
