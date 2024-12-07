@@ -8,7 +8,7 @@ const Logo = () => {
   const [logoSrc, setLogoSrc] = useState("/images/logo_large.png");
 
   const handleLogo = () => {
-    router.push("/todos");
+    router.push("/");
   };
 
   useEffect(() => {

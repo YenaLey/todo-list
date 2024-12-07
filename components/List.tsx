@@ -2,13 +2,13 @@
 
 import { editItem } from "@/lib/api";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
-export default function List({
-  item,
-  setIsEdit,
-  onRemove,
-}: ListType & { onRemove: (id: number) => void }) {
-  const handleCheck = async () => {
+export default function List({ item, setIsEdit, onRemove }: ListType) {
+  const router = useRouter();
+
+  const handleCheck = async (e: React.MouseEvent | React.ChangeEvent) => {
+    e.stopPropagation();
     onRemove(item.id);
 
     try {
@@ -35,12 +35,14 @@ export default function List({
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 10 }}
       transition={{ duration: 0.5 }}
+      onTap={() => router.push(`details/${item.id}`)}
     >
       <input
         type="checkbox"
         checked={item.isCompleted}
         onChange={handleCheck}
-      ></input>
+        onClick={(e) => e.stopPropagation()}
+      />
       <p>{item.name}</p>
     </motion.li>
   );

@@ -92,7 +92,7 @@ export default function Main() {
           <h2>TO DO</h2>
           <ul>
             <AnimatePresence>
-              {todoList.map((item, index) => (
+              {todoList.map((item) => (
                 <List
                   key={item.id}
                   item={item}
@@ -107,7 +107,7 @@ export default function Main() {
           <h2>DONE</h2>
           <ul>
             <AnimatePresence>
-              {doneList.map((item, index) => (
+              {doneList.map((item) => (
                 <List
                   key={item.id}
                   item={item}
