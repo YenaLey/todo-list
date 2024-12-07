@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { useParams } from "next/navigation";
 import styles from "@/styles/details.module.css";
 import { getItem, editItem, getImageUrl, deleteItem } from "@/lib/api";
@@ -9,6 +10,7 @@ import { getItem, editItem, getImageUrl, deleteItem } from "@/lib/api";
 export default function Details() {
   const params = useParams();
   const router = useRouter();
+  const [isLoading, setLoading] = useState(true);
   const itemId = parseInt(params.itemId as string, 10);
   const [initialItemInfo, setInitialItemInfo] = useState({
     itemId: itemId,
@@ -64,6 +66,7 @@ export default function Details() {
     }
 
     try {
+      setLoading(true);
       const { status, data } = await getImageUrl({ imageFile: file });
 
       if (status === 201) {
@@ -80,6 +83,8 @@ export default function Details() {
       } else {
         alert("이미지를 업로드할 수 없습니다. 다시 시도해주세요.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -88,32 +93,48 @@ export default function Details() {
       alert("제목을 입력해주세요.");
       return;
     }
-    const { status } = await editItem(itemInfo);
 
-    if (status === 200) {
-      router.push("/");
-    } else if (status === 404) {
+    try {
+      setLoading(true);
+      const { status } = await editItem(itemInfo);
+
+      if (status === 200) {
+        router.push("/");
+      } else if (status === 404) {
+        alert("문제가 발생했습니다. 다음에 시도해주세요.");
+      } else {
+        alert("문제가 발생했습니다. 다음에 시도해주세요.");
+      }
+    } catch {
       alert("문제가 발생했습니다. 다음에 시도해주세요.");
-    } else {
-      alert("문제가 발생했습니다. 다음에 시도해주세요.");
+    } finally {
+      setLoading(false);
     }
   };
 
   const fetchDeleteItem = async () => {
-    const { status } = await deleteItem({ itemId });
+    try {
+      setLoading(true);
+      const { status } = await deleteItem({ itemId });
 
-    if (status === 200) {
-      router.push("/");
-    } else if (status === 404) {
+      if (status === 200) {
+        router.push("/");
+      } else if (status === 404) {
+        alert("문제가 발생했습니다. 다음에 시도해주세요.");
+      } else {
+        alert("문제가 발생했습니다. 다음에 시도해주세요.");
+      }
+    } catch {
       alert("문제가 발생했습니다. 다음에 시도해주세요.");
-    } else {
-      alert("문제가 발생했습니다. 다음에 시도해주세요.");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     const fetchGetItem = async () => {
       try {
+        setLoading(true);
         const { status, data } = await getItem({ itemId });
 
         if (status === 200) {
@@ -135,6 +156,8 @@ export default function Details() {
       } catch (error) {
         console.error("아이템 가져오기 중 오류 발생:", error);
         alert("문제가 발생하였습니다. 다음에 시도해주세요.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -150,69 +173,78 @@ export default function Details() {
 
   return (
     <div className={styles.container}>
-      <header>
-        <input
-          type="checkbox"
-          checked={itemInfo.isCompleted}
-          onChange={() =>
-            setItemInfo((prev) => ({
-              ...prev,
-              isCompleted: !itemInfo.isCompleted,
-            }))
-          }
-        />
-        <input
-          type="text"
-          ref={inputRef}
-          value={itemInfo.name}
-          onChange={(e) =>
-            setItemInfo((prev) => ({ ...prev, name: e.target.value }))
-          }
-        />
-      </header>
-      <section>
-        <div
-          className={`${styles.imgBox} ${
-            itemInfo.imageUrl ? "" : styles.empty
-          }`}
-        >
-          {itemInfo.imageUrl && (
-            <img src={itemInfo.imageUrl} alt="이미지 미리보기" />
-          )}
-          <input type="file" onChange={uploadImg} id="imageUpload" />
-          <label htmlFor="imageUpload" />
-        </div>
-        <div className={styles.memoBox}>
-          <h3>Memo</h3>
-          <div>
-            <textarea
-              ref={textareaRef}
-              placeholder="메모를 입력해주세요"
-              value={itemInfo.memo}
-              onChange={(e) => {
-                const textarea = e.target;
-                textarea.style.height = "auto";
-                textarea.style.height = `${textarea.scrollHeight}px`;
-                setItemInfo((prev) => ({ ...prev, memo: textarea.value }));
-              }}
-            />
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {isLoading && (
+          <img className="loading" src="/images/loading.gif" alt="로딩" />
+        )}
+        <header>
+          <input
+            type="checkbox"
+            checked={itemInfo.isCompleted}
+            onChange={() =>
+              setItemInfo((prev) => ({
+                ...prev,
+                isCompleted: !itemInfo.isCompleted,
+              }))
+            }
+          />
+          <input
+            type="text"
+            ref={inputRef}
+            value={itemInfo.name}
+            onChange={(e) =>
+              setItemInfo((prev) => ({ ...prev, name: e.target.value }))
+            }
+          />
+        </header>
+        <section>
+          <div
+            className={`${styles.imgBox} ${
+              itemInfo.imageUrl ? "" : styles.empty
+            }`}
+          >
+            {itemInfo.imageUrl && (
+              <img src={itemInfo.imageUrl} alt="이미지 미리보기" />
+            )}
+            <input type="file" onChange={uploadImg} id="imageUpload" />
+            <label htmlFor="imageUpload" />
           </div>
-        </div>
-      </section>
-      <footer>
-        <button
-          onClick={fetchEditItem}
-          disabled={!hasChanges}
-          style={{ backgroundColor: hasChanges ? "#BEF264" : "#e2e8f0" }}
-        >
-          <img src="/images/black_check.png" alt="버튼" />
-          &nbsp;수정 완료
-        </button>
-        <button onClick={fetchDeleteItem}>
-          <img src="/images/white_x.png" alt="버튼" />
-          &nbsp;삭제하기
-        </button>
-      </footer>
+          <div className={styles.memoBox}>
+            <h3>Memo</h3>
+            <div>
+              <textarea
+                ref={textareaRef}
+                placeholder="메모를 입력해주세요"
+                value={itemInfo.memo}
+                onChange={(e) => {
+                  const textarea = e.target;
+                  textarea.style.height = "auto";
+                  textarea.style.height = `${textarea.scrollHeight}px`;
+                  setItemInfo((prev) => ({ ...prev, memo: textarea.value }));
+                }}
+              />
+            </div>
+          </div>
+        </section>
+        <footer>
+          <button
+            onClick={fetchEditItem}
+            disabled={!hasChanges}
+            style={{ backgroundColor: hasChanges ? "#BEF264" : "#e2e8f0" }}
+          >
+            <img src="/images/black_check.png" alt="버튼" />
+            &nbsp;수정 완료
+          </button>
+          <button onClick={fetchDeleteItem}>
+            <img src="/images/white_x.png" alt="버튼" />
+            &nbsp;삭제하기
+          </button>
+        </footer>
+      </motion.div>
     </div>
   );
 }
