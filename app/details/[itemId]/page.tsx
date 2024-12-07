@@ -43,10 +43,14 @@ export default function Details() {
       return;
     }
 
-    // 조건 검사: 파일 이름은 영어로만 구성, 파일 크기 <= 5MB
     const fileNameRegex = /^[a-zA-Z0-9_.-]+$/;
     if (!fileNameRegex.test(file.name)) {
       alert("파일 이름은 영어로만 이루어져야 합니다.");
+      return;
+    }
+
+    if (file.size >= 5 * 1024 * 1024) {
+      alert("파일 크기는 5MB 이하여야 합니다.");
       return;
     }
 
@@ -55,15 +59,18 @@ export default function Details() {
 
       if (status === 201) {
         setItemInfo((prev) => ({ ...prev, imageUrl: data.url }));
-        console.log(data);
-      } else if (status === 413) {
-        alert("5MB보다 작은 이미지를 업로드해주세요.");
+        console.log("이미지 업로드 성공:", data);
       } else {
-        alert("이미지를 업로드할 수 없습니다.");
+        alert("이미지를 업로드할 수 없습니다. 다시 시도해주세요.");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("이미지 업로드 중 오류 발생:", error);
-      alert("이미지를 업로드할 수 없습니다.");
+
+      if (error.response && error.response.status === 413) {
+        alert("파일 크기는 5MB 이하여야 합니다.");
+      } else {
+        alert("이미지를 업로드할 수 없습니다. 다시 시도해주세요.");
+      }
     }
   };
 
